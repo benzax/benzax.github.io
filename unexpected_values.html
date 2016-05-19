@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Unexpected Values</title>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML">
+</script>
+</head>
+<body>
+Imagine a population in which each family has children until they produce a son, at which point they stop.  Suppose that each fertilized egg has an equal chance of being male or female, and that children are always born one at a time.  What is the expected fraction of male children in this population?  It would be tempting to say $\frac{1}{2}$, because $E[sons] = E[daughters]$, but frustratingly
+
+$$ E \left[ \frac{sons}{sons + daughters} \right] \neq \frac{E[sons]}{E[sons + daughters]} $$
+
+Instead the ratio is strictly greater than $\frac{1}{2}$, though in a population of n families, the ratio does approach $\frac{1}{2}$ as n goes to infinity, with
+
+$$ E \left[ \frac{sons}{sons + daughters} \right] \approx \frac{1}{2} + {c \over n} $$
+
+Because really, what can't be linearly approximated?
+<br>
+
+Do note that $E[daughters] = E[sons]$ for the population, because both are $1$ per family.  There are several ways to convince yourself of this.  Half of all families will have a daughter first, but then will be back where they started, with the same number of additional daughters expected.  So $E[daughters] = {1 \over 2} + {1 \over 2} E[daughters] \implies {E[daughters] \over 2} = {1 \over 2} $.  Alternatively, from the definition of expected value, $E[X] = \sum_{n=0}^\infty n \cdot p(n)$ we have,
+
+$$ E[daughters] = \sum_{n=0}^\infty n { 1 \over 2^{n+1} } = {1 \over 4} + {2 \over 8} + {3 \over 16} + \ldots $$
+
+$$ 2 E[daughters] - E[daughters] = {1 \over 2} + {2 \over 4} + {3 \over 8} + {4 \over 16} + \ldots - \left[ {1 \over 4} + {2 \over 8} + {3 \over 16} + \ldots \right] = {1 \over 2} + {1 \over 4 } + {1 \over 8} + {1 \over 16} + \ldots = 1 $$
+
+$$ E[daughters] = 2 E[daughters] - E[daughters] = 1 $$
+
+One would hope we should get this result, since each baby that is born has a one half chance of being female, with its gender chosen independently of the gender of its siblings, even if the circumstances of its birth were not.
+
+Going back to the expected fraction of male children, however, we find for a single family that
+
+$$ E \left[ {sons \over sons + daughters} \right] = \sum_{n=0}^\infty {1 \over 1 + n} \cdot {1 \over 2^{1 + n}} = \sum_{n=1}^\infty {1 \over n} \cdot {1 \over 2^{n}} = - \ln(1 - {1 \over 2}) = \ln(2) \approx .69 $$
+
+This is quite a bit greater than ${1 \over 2}$, with just the 50% chance of a family having one boy out of one children already contributing .5 to the expected value.
+
+<br>
+
+How do we reconcile this with the fact that $E \left[ \frac{sons + daughters}{sons} \right] = 2$?  It turns out this is just the Arithmetic-Harmonic mean inequality at play.
+
+<br>
+
+The Arithmetic-Geometric-Harmonic mean inequality is as follows:
+
+<br>
+
+For a vector $\vec{x} \in \Bbb{R}_{\geq 0}^n$, we have
+
+$$ {1 \over n} \sum x_i \geq \sqrt[n]{ \prod x_i } \geq {n \over \sum {1 \over x_i}} $$
+
+with equality only when all $x_i$ are equal.
+
+For our purposes we just care about the Arithmetic-Harmonic inequality, which is easily proven via Cauchy-Schwarz on the vectors $ (\sqrt{x_1}, \sqrt{x_2}, \ldots, \sqrt{x_n} )$ and $ ({1 \over \sqrt{x_1}}, {1 \over \sqrt{x_2}}, \ldots, {1 \over \sqrt{x_n}}) $
+
+$$ \left| (\sqrt{x_1}, \sqrt{x_2}, \ldots, \sqrt{x_n} ) \right|^2 \left| ({1 \over \sqrt{x_1}}, {1 \over \sqrt{x_2}}, \ldots, {1 \over \sqrt{x_n}}) \right|^2 \geq \left[ (\sqrt{x_1}, \sqrt{x_2}, \ldots, \sqrt{x_n} ) \cdot ({1 \over \sqrt{x_1}}, {1 \over \sqrt{x_2}}, \ldots, {1 \over \sqrt{x_n}}) \right]^2$$
+
+$$ \sum x_i \cdot \sum {1 \over x_i} \geq n^2 $$
+
+$$ {1 \over n} \sum x_i \geq {n \over \sum {1 \over x_i }} $$
+
+This also holds for probability distributions, where we have
+
+$$ E[X] \geq {1 \over E[{1 \over X}]} $$
+
+To see this, consider a random variable $X$, with $x(t)$ its probability density function.  If $X$ has positive support, then define the reciprocal $1 / X$, with density function $t^{-2} x(t^{-1})$.  The $t^{-2}$ appears because the cumulative distribution functions of $X$ and $1/X$ are complimentary, $P(X \geq {1 \over t}) + P({1 \over X} \gt t) = 1$, and thus
+
+$$ {d P({1 \over X} \gt t) \over dt} = {d (1 - P(X \geq {1 \over t})) \over dt} = - { x({1 \over t}) \over - t^2 }$$
+
+As a check that $1/X$ makes sense as a probability distribution, see that it is properly normed,
+
+$$ \left \langle {1 \over X} \right \rangle = \int_{t=0}^\infty {1 \over t^2} x({1 \over t}) dt = \int_{s=\infty}^0 s^2 x(s) {-ds \over s^2} = \int_{s=0}^\infty x(s) ds = 1 $$
+
+where we've used the substitution $t = {1 \over s}$, with $dt = {-ds \over s^2}$, and both the minus sign and the substitution reverse the limits of integration in turn.  Now stop me if you've already seen this, but using Cauchy-Schwarz we have
+
+$$ E[X] \cdot E[1/X] = \int_{t=0}^{\infty} t x(t) dt \cdot \int_{t=0}^{\infty} {t \over t^2} x({1 \over t}) dt = \int_{t=0}^{\infty} t x(t) dt \cdot \int_{s=\infty}^{0} s x({s}) {-ds \over s^2} = \int_{t=0}^{\infty} t x(t) dt \cdot \int_{s=0}^{\infty} {x({s}) \over s} ds $$
+
+$$ E[X] \cdot E[1/X] = \int_{t=0}^{\infty} t x(t) dt \cdot \int_{t=0}^{\infty} {x(t) \over t} dt \geq \int_{t=0}^{\infty} \sqrt{t x(t)} \sqrt{{x(t) \over t}} dt = \int_{t=0}^{\infty} x(t) dt = 1 $$
+
+So $E[X] \cdot E[1/X] \geq 1$, with this applying to discrete distributions as well.
+
+The two sides will be equal when the vectors $\sqrt{t x(t)}$ and $\sqrt{x(t) / t}$ are scalar multiples, which can occur only if $x(t)$ is 0 at all but one point.
+
+<br>
+
+Now, how do we get to
+
+$$ E \left[ {sons \over sons + daughters} \right] \approx {1 \over 2} + {c \over \sqrt{n}} $$
+
+We can reorganize slightly to get
+
+$$ E \left[ {sons \over sons + daughters} \right] = E \left[ {1 \over 1 + {daughters \over sons}} \right] = E \left[ {1 \over 1 + {1 \over n} daughters} \right]  $$
+
+Which is fantastic news, since ${1 \over n} daughters$ is the average of the number of daughters per family, and the average of a large number of independent random random variables with well defined expected value and variance will converge upon a standard normal distribution.  In this case, we get the standard normal with expected value 1, and variance ${2 \over n}$.  We already computed the expected number of daughters per family, and the variance of that distribution is $2$, as follows:
+
+$$ Var(daughters) = E[daughters^2] - E[daughters]^2 = -1 + \sum_{n=1}^\infty n^2 {1 \over 2^{n+1}} $$
+
+With a little slight of hand we have
+
+$$ 2 \sum_{n=1}^\infty n^2 {1 \over 2^{n+1}} 
+= \sum_{n=1}^\infty n^2 {1 \over 2^{n}}
+= \sum_{n=0}^\infty (n+1)^2 {1 \over 2^{n+1}} $$
+
+and so
+
+$$ \sum_{n=1}^\infty n^2 {1 \over 2^{n+1}} 
+= 2 \sum_{n=1}^\infty n^2 {1 \over 2^{n+1}} - \sum_{n=1}^\infty n^2 {1 \over 2^{n+1}} 
+= \sum_{n=0}^\infty (n+1)^2 {1 \over 2^{n+1}} - \sum_{n=1}^\infty n^2 {1 \over 2^{n+1}}
+= {1 \over 2} + \sum_{n=1}^\infty (2n + 1) {1 \over 2^{n+1}} $$
+
+$$ \sum_{n=1}^\infty n^2 {1 \over 2^{n+1}} 
+= {1 \over 2} + \sum_{n=1}^\infty 2n {1 \over 2^{n+1}} + \sum_{n=1}^\infty {1 \over 2^{n+1}}
+= {1 \over 2} + 2 \sum_{n=1}^\infty n {1 \over 2^{n+1}} + {1 \over 2} = 1 + 2 = 3$$
+
+So for large n, we have
+$$ E \left[ {sons \over sons + daughters} \right]
+= E \left[ {1 \over 1 + {daughters \over sons}} \right]
+\approx E \left[ {1 \over 1 + N(1, {2 \over n})} \right] $$
+
+At this point we stand up and wave our hands around, because this is going to be a nasty integral, but everyone knows that after a few standard deviations the tail of a normal distribution disappears rapidly, and even though our approximation allows for the possibility that ${daughters \over sons} = -1$ where things would blow up, that probability goes to zero exponentially in n.
+
+With some care we should be able to bound $N(1,{2 \over n})$ from above by some function with support on $1 \pm c \cdot n^{-.5 + \delta}$, plus some exponentially decaying tails, and below by some function with support only on $1 \pm c / \sqrt{n}$.
+
+<br>
+
+Then the last step would be to convince ourselves that if we replace $N(1, {2 \over n})$ with the uniform distribution on $1 \pm c/\sqrt{n}$, we get an expected value of the form $1 + c/n$.  But that part is easy!  Letting $L = c/\sqrt{n}$, and taking care to hit a convergent series for $\ln$,
+
+$$ E \left[ {1 \over 1 + U_{1-L}^{1+L}} \right]
+= \int_{t=1-L}^{1+L} {1 \over 2L} {1 \over 1 + t} dt
+= {1 \over 2L} \int_{t=-L}^{L} {1 \over 2 + t} dt
+= {1 \over 2L} \int_{t=-L}^{L} {dt/2 \over 1 + t/2}
+= {1 \over 2L} \ln(1 + t/2)|_{-L}^{L} $$
+
+$$ E \left[ {1 \over 1 + U_{1-L}^{1+L}} \right]
+\approx {1 \over 2L} \left( \left[ L/2 - {(L/2)^2 \over 2} + {(L/2)^3 \over 3} + \ldots \right] - \left[ -L/2 - {(-L/2)^2 \over 2} + {(-L/2)^3 \over 3} + \ldots \right] \right) $$
+
+$$ E \left[ {1 \over 1 + U_{1-L}^{1+L}} \right]
+\approx {1 \over 2L} \left( L + {2 (L/2)^3 \over 3} + O(L^5) \right)
+= {1 \over 2} + {c^2 \over 24 n} +O \left({1 \over n^2}\right)$$
+
+</body>
+</html>
