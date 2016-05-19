@@ -87,7 +87,7 @@ The two sides will be equal when the vectors $\sqrt{t x(t)}$ and $\sqrt{x(t) / t
 
 Now, how do we get to
 
-$$ E \left[ {sons \over sons + daughters} \right] \approx {1 \over 2} + {c \over \sqrt{n}} $$
+$$ E \left[ {sons \over sons + daughters} \right] \approx {1 \over 2} + {c \over n} $$
 
 We can reorganize slightly to get
 
@@ -125,7 +125,7 @@ With some care we should be able to bound $N(1,{2 \over n})$ from above by some 
 
 <br>
 
-Then the last step would be to convince ourselves that if we replace $N(1, {2 \over n})$ with the uniform distribution on $1 \pm c/\sqrt{n}$, we get an expected value of the form $1 + c/n$.  But that part is easy!  Letting $L = c/\sqrt{n}$, and taking care to hit a convergent series for $\ln$,
+Then the last step would be to convince ourselves that if we replace $N(1, {2 \over n})$ with the uniform distribution on $1 \pm c/\sqrt{n}$, we get an expected value of the form $1/2 + c/n$.  But that part is easy!  Letting $L = c/\sqrt{n}$, and taking care to hit a convergent series for $\ln$,
 
 $$ E \left[ {1 \over 1 + U_{1-L}^{1+L}} \right]
 = \int_{t=1-L}^{1+L} {1 \over 2L} {1 \over 1 + t} dt
