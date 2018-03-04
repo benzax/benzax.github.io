@@ -93,7 +93,7 @@ We can reorganize slightly to get
 
 $$ E \left[ {sons \over sons + daughters} \right] = E \left[ {1 \over 1 + {daughters \over sons}} \right] = E \left[ {1 \over 1 + {1 \over n} daughters} \right]  $$
 
-Which is fantastic news, since ${1 \over n} daughters$ is the average of the number of daughters per family, and the average of a large number of independent random random variables with well defined expected value and variance will converge upon a standard normal distribution.  In this case, we get the standard normal with expected value 1, and variance ${2 \over n}$.  We already computed the expected number of daughters per family, and the variance of that distribution is $2$, as follows:
+Which is fantastic news, since ${1 \over n} daughters$ is the average of the number of daughters per family, and the average of a large number of independent random variables with well defined expected value and variance will converge upon a standard normal distribution.  In this case, we get the standard normal with expected value 1, and variance ${2 \over n}$.  We already computed the expected number of daughters per family, and the variance of that distribution is $2$, as follows:
 
 $$ Var(daughters) = E[daughters^2] - E[daughters]^2 = -1 + \sum_{n=1}^\infty n^2 {1 \over 2^{n+1}} $$
 
@@ -121,7 +121,7 @@ $$ E \left[ {sons \over sons + daughters} \right]
 
 At this point we stand up and wave our hands around, because this is going to be a nasty integral, but everyone knows that after a few standard deviations the tail of a normal distribution disappears rapidly, and even though our approximation allows for the possibility that ${daughters \over sons} = -1$ where things would blow up, that probability goes to zero exponentially in n.
 
-With some care we should be able to bound $N(1,{2 \over n})$ from above by some function with support on $1 \pm c \cdot n^{-.5 + \delta}$, plus some exponentially decaying tails, and below by some function with support only on $1 \pm c / \sqrt{n}$.
+With some care we should be able to bound $N(1,{2 \over n})$ from above by some function with support on $1 \pm c \cdot n^{-.5 + \delta}$, plus some exponentially decaying tails, and below by some function with support only on $1 \pm c \cdot n^{-.5 - \delta}$.
 
 <br>
 
